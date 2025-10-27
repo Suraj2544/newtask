@@ -1,0 +1,49 @@
+name: Daily Repository Update - 21f3000813@ds.study.iitm.ac.in
+
+on:
+  schedule:
+    # Run once daily at 09:00 UTC
+    # Using specific hour and minute (not wildcards)
+    - cron: '0 9 * * *'
+  
+  # Allow manual triggering for testing
+  workflow_dispatch:
+
+jobs:
+  daily-commit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Configure git user for 21f3000813@ds.study.iitm.ac.in
+        run: |
+          git config user.name "DevSync Automation"
+          git config user.email "21f3000813@ds.study.iitm.ac.in"
+      
+      - name: Create daily update commit for 21f3000813@ds.study.iitm.ac.in
+        run: |
+          # Get current timestamp
+          TIMESTAMP=$(date -u +'%Y-%m-%d %H:%M:%S UTC')
+          
+          # Create or update the activity log file
+          echo "Repository updated: $TIMESTAMP" >> activity.log
+          
+          # Stage and commit changes
+          git add activity.log
+          git commit -m "Daily update by DevSync automation at $TIMESTAMP (21f3000813@ds.study.iitm.ac.in)"
+      
+      - name: Push changes to repository
+        run: |
+          git push origin HEAD:${{ github.ref }}
+      
+      - name: Log workflow completion for 21f3000813@ds.study.iitm.ac.in
+        run: |
+          echo "Daily commit workflow completed successfully"
+          echo "Timestamp: $(date -u)"
+          git log -1 --oneline
