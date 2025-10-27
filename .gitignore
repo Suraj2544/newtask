@@ -19,5 +19,4 @@ venv/
 Thumbs.db
 
 # Project specific
-*.log
 *.tmp
